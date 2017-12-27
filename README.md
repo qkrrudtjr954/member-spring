@@ -1,6 +1,7 @@
 # Simple Notice Board
 
 자바 스윙을 사용한 게시판 어플리케이션.
+
 Write Post and Comment Application using java swing and mysql and oracle.
 
 ## Dev Environment
