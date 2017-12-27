@@ -20,7 +20,7 @@ public class MySqlConnection implements DBConnection{
 		Connection conn = null;
 		
 		try {
-			conn = DriverManager.getConnection("jdbc:mysql://localhost/member", "root", "Rudtjr1216");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost/member", "root", "");
 			System.out.println("Data Base is connected.");
 		} catch (SQLException e) {
 			e.printStackTrace();
