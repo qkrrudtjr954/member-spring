@@ -93,17 +93,13 @@ public class Login extends JFrame implements ActionListener {
 					pwd.setText("");
 				} else {
 					delegator.setCurrent_user(member);
-					
-					
-//					if (_id.equals("admin")){
-//						// admin user
-//						List<BbsDto> list = AdminDao.getInstance().getAllBbsList();
-//						new Admin(list);
-//					} else {
-//						// nomal user
-//						List<BbsDto> list = BbsDao.getInstance().getBbsList();
-//						new Bbs(list);						
-//					}
+										
+					if (_id.equals("admin")){
+						
+					} else {
+						// nomal user
+						delegator.bbsController.bbs();
+					}
 					
 					this.dispose();
 				}				
