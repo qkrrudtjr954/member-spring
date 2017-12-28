@@ -22,4 +22,10 @@ public class CommentService implements CommentServiceImpl {
 		return comDao.getComments(seq);
 	}
 
+	@Override
+	public boolean delete(int seq) {
+		// TODO Auto-generated method stub
+		return comDao.delete(seq);
+	}
+
 }

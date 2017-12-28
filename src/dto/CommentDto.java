@@ -14,6 +14,7 @@ create table comments(
 );
  */
 public class CommentDto implements Serializable {
+	int seq;
 	String content;
 	String wdate;
 	String user_id;
@@ -31,10 +32,12 @@ public class CommentDto implements Serializable {
 		this.bbs_id = bbs_id;
 		this.del = del;
 	}
-	@Override
-	public String toString() {
-		return "CommentDto [content=" + content + ", wdate=" + wdate + ", user_id=" + user_id + ", bbs_id=" + bbs_id
-				+ ", del=" + del + "]";
+	
+	public int getSeq() {
+		return seq;
+	}
+	public void setSeq(int seq) {
+		this.seq = seq;
 	}
 	public String getContent() {
 		return content;
@@ -66,6 +69,12 @@ public class CommentDto implements Serializable {
 	public void setDel(int del) {
 		this.del = del;
 	}
+	@Override
+	public String toString() {
+		return "CommentDto [seq=" + seq + ", content=" + content + ", wdate=" + wdate + ", user_id=" + user_id
+				+ ", bbs_id=" + bbs_id + ", del=" + del + "]";
+	}
+	
 	
 	
 

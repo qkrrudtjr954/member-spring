@@ -37,7 +37,6 @@ public class PostDetail extends JFrame implements MouseListener, ActionListener{
 	JButton editBtn;
 	JButton commentBtn;
 	
-	
 	JTable comments;
 	
 	List<CommentDto> commentList = null;

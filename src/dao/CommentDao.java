@@ -28,7 +28,7 @@ public class CommentDao implements CommentDaoImpl {
 			sql = " insert into comments(content, wdate, user_id, bbs_id, del)" + " values('" + content + "', now(), '"
 					+ current_user.getId() + "', " + seq + ", 0)";
 		} else {
-			sql = " insert into comments " + " values(sysdate, '" + content + "', '" + current_user.getId() + "', "
+			sql = " insert into comments " + " values(comment_seq.nextval, sysdate, '" + content + "', '" + current_user.getId() + "', "
 					+ seq + ", 0)";
 		}
 
@@ -72,6 +72,7 @@ public class CommentDao implements CommentDaoImpl {
 			while (rs.next()) {
 				CommentDto comment = new CommentDto();
 
+				comment.setSeq(rs.getInt("seq"));
 				comment.setBbs_id(rs.getInt("bbs_id"));
 				comment.setContent(rs.getString("content"));
 				comment.setUser_id(rs.getString("user_id"));
@@ -87,6 +88,32 @@ public class CommentDao implements CommentDaoImpl {
 			DBClose.close(ptmt, conn, rs);
 		}
 		return comments;
+	}
+
+	@Override
+	public boolean delete(int seq) {
+		// TODO Auto-generated method stub
+		String sql = "update comment set del=1 where seq="+seq;
+		
+		DBConnector.initConnect();
+
+		Connection conn = null;
+		PreparedStatement ptmt = null;
+		int count = 0;
+		System.out.println(" * CommentDao .delete() sql : " + sql);
+
+		try {
+			conn = DBConnector.makeConnection();
+			ptmt = conn.prepareStatement(sql);
+			count = ptmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			DBClose.close(ptmt, conn, null);
+		}
+		
+		return (count > 0)? true : false;
 	}
 
 }

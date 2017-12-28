@@ -11,4 +11,8 @@ public class CommentController {
 		return comService.insert(content, seq);
 	}
 
+	public boolean delete(int seq) {
+		return comService.delete(seq);
+	}
+
 }
