@@ -2,6 +2,7 @@ package view;
 
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,6 +10,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -19,9 +21,9 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 
-import dao.BbsDao;
 import delegator.Delegator;
 import dto.BbsDto;
+import dto.CommentDto;
 
 
 
@@ -38,7 +40,7 @@ public class PostDetail extends JFrame implements MouseListener, ActionListener{
 	
 	JTable comments;
 	
-//	List<CommentDto> list = null;
+	List<CommentDto> commentList = null;
 	
 	
 	JTextField comment;
@@ -49,14 +51,12 @@ public class PostDetail extends JFrame implements MouseListener, ActionListener{
 	
 	BbsDto bbsDto;
 	
-	public PostDetail(BbsDto bbsDto) {
+	public PostDetail(BbsDto bbsDto, List<CommentDto> commentList) {
 		super("Detail");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		this.bbsDto= bbsDto;
-
-		
-//		dao.plusReadCount(bbsDto);
+		this.commentList = commentList;
 		
 		Container contentPane = getContentPane();
         contentPane.setBackground(Color.yellow);
@@ -91,49 +91,47 @@ public class PostDetail extends JFrame implements MouseListener, ActionListener{
 		contentPane.add(contentPanel);
 
 		
-//		CommentDao commentDao = CommentDao.getInstance();
-//		list = CommentDao.getComments(bbsDto.getSeq());
-//		
-//		JPanel panel = new JPanel();
-//		panel.setBorder(BorderFactory.createLineBorder(Color.red));
-//		panel.setPreferredSize(new Dimension(370, list.size()*60));
-//		panel.setLayout(null);
-//		
-//		for(int i = 0; i<list.size(); i++) {
-//			JLabel user = new JLabel(list.get(i).getUser_id());
-//			user.setBounds(0, i*60, 75, 20);
-//			panel.add(user);
-//			
-//			JLabel content = new JLabel("<html><p>"+list.get(i).getContent()+"</p></html>");
-//			content.setBounds(5, i*60+20, 270, 40);
-//			panel.add(content);
-//			
-//			JLabel wdate = new JLabel("<html><p>"+list.get(i).getWdate().replace(" ", "\n")+"</p></html>");
-//			wdate.setBounds(280, i*60+20, 95, 40);
-//			panel.add(wdate);
-//		}
-//		
-//		JScrollPane showCommentPanel = new JScrollPane(panel);
-//		showCommentPanel.setBounds(0, 370, 375, 150);
-//		
-//		contentPane.add(showCommentPanel);
-//		
-//		JPanel writeCommentPanel = new JPanel();
-//		writeCommentPanel.setLayout(null);
-//		writeCommentPanel.setBounds(0, 520, 375, 50);
-//		
-//		comment = new JTextField();
-//		comment.setLocation(0, 0);
-//		comment.setSize(300, 50);
-//		writeCommentPanel.add(comment);
-//		
-//		commentBtn = new JButton("댓글");
-//		commentBtn.setLocation(300, 0);
-//		commentBtn.setSize(75, 50);
-//		commentBtn.addActionListener(this);
-//		writeCommentPanel.add(commentBtn);
-//		
-//		contentPane.add(writeCommentPanel);
+		
+		JPanel panel = new JPanel();
+		panel.setBorder(BorderFactory.createLineBorder(Color.red));
+		panel.setPreferredSize(new Dimension(370, commentList.size()*60));
+		panel.setLayout(null);
+		
+		for(int i = 0; i<commentList.size(); i++) {
+			JLabel user = new JLabel(commentList.get(i).getUser_id());
+			user.setBounds(0, i*60, 75, 20);
+			panel.add(user);
+			
+			JLabel content = new JLabel("<html><p>"+commentList.get(i).getContent()+"</p></html>");
+			content.setBounds(5, i*60+20, 270, 40);
+			panel.add(content);
+			
+			JLabel wdate = new JLabel("<html><p>"+commentList.get(i).getWdate().replace(" ", "\n")+"</p></html>");
+			wdate.setBounds(280, i*60+20, 95, 40);
+			panel.add(wdate);
+		}
+		
+		JScrollPane showCommentPanel = new JScrollPane(panel);
+		showCommentPanel.setBounds(0, 370, 375, 150);
+		
+		contentPane.add(showCommentPanel);
+		
+		JPanel writeCommentPanel = new JPanel();
+		writeCommentPanel.setLayout(null);
+		writeCommentPanel.setBounds(0, 520, 375, 50);
+		
+		comment = new JTextField();
+		comment.setLocation(0, 0);
+		comment.setSize(300, 50);
+		writeCommentPanel.add(comment);
+		
+		commentBtn = new JButton("댓글");
+		commentBtn.setLocation(300, 0);
+		commentBtn.setSize(75, 50);
+		commentBtn.addActionListener(this);
+		writeCommentPanel.add(commentBtn);
+		
+		contentPane.add(writeCommentPanel);
 
 		
 		
@@ -195,7 +193,7 @@ public class PostDetail extends JFrame implements MouseListener, ActionListener{
 		// TODO Auto-generated method stub
 		Delegator delegator = Delegator.getInstance();
 		Object obj = e.getSource();
-		List<BbsDto> list = null;
+		
 		if(obj == allPost) {
 			delegator.bbsController.bbs();
 			this.dispose();
@@ -205,23 +203,22 @@ public class PostDetail extends JFrame implements MouseListener, ActionListener{
 			this.dispose();
 			
 		} 
-//		else if(obj == commentBtn) {
-//			CommentDao commentDao = CommentDao.getInstance();
-//			String content = comment.getText();
-//			
-//			if(content.length() < 5) {
-//				JOptionPane.showMessageDialog(null, "댓글은 5글자 이상 작성해주세요.");
-//			}else {
-//				int count = commentDao.insert(content, this.bbsDto.getSeq());
-//				
-//				if(count > 0) {
-//					new PostDetail(this.bbsDto);
-//					this.dispose();
-//				}else {
-//					JOptionPane.showMessageDialog(null, "댓글을 입력할 수 없습니다.");
-//				}
-//			}
-//		}
+		else if(obj == commentBtn) {
+			String content = comment.getText();
+			
+			if(content.length() < 5) {
+				JOptionPane.showMessageDialog(null, "댓글은 5글자 이상 작성해주세요.");
+			}else {
+				boolean result = delegator.comController.addComment(content, this.bbsDto.getSeq());
+				
+				if(result) {
+					delegator.bbsController.detail(bbsDto);
+					this.dispose();
+				}else {
+					JOptionPane.showMessageDialog(null, "댓글을 입력할 수 없습니다.");
+				}
+			}
+		}
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {

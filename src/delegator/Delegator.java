@@ -1,6 +1,7 @@
 package delegator;
 
 import controller.BbsController;
+import controller.CommentController;
 import controller.MainController;
 import controller.MemberController;
 import dto.MemberDto;
@@ -12,11 +13,13 @@ public class Delegator {
 	public MainController mainController = null;
 	public MemberController memController = null;
 	public BbsController bbsController = null;
+	public CommentController comController = null;
 	
 	private Delegator() {
 		mainController = new MainController();
 		memController = new MemberController();
 		bbsController = new BbsController();
+		comController = new CommentController();
 		
 	}
 	

@@ -44,7 +44,7 @@ public class BbsDao implements BbsDaoImpl {
 
 		try {
 			ptmt = conn.prepareStatement(sql); // initializing
-			count = ptmt.executeUpdate(sql); // .executeUpdate() : 데이터베이스를 바꾸는 작업 (insert, update, delete)
+			count = ptmt.executeUpdate(sql); 	// .executeUpdate() : 데이터베이스를 바꾸는 작업 (insert, update, delete)
 			// count는 바뀐 수
 
 		} catch (SQLException e) {

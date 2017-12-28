@@ -5,7 +5,11 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 import dto.BbsDto;
+import dto.CommentDto;
 import service.BbsService;
+import service.BbsServiceImpl;
+import service.CommentService;
+import service.CommentServiceImpl;
 import view.Bbs;
 import view.Edit;
 import view.PostDetail;
@@ -13,7 +17,7 @@ import view.Write;
 
 public class BbsController {
 	
-	BbsService bbsService = new BbsService();
+	BbsServiceImpl bbsService = new BbsService();
 	
 	public void bbs() {
 		List<BbsDto> list = bbsService.getBbsList();
@@ -39,8 +43,12 @@ public class BbsController {
 	
 	public void detail(BbsDto bbs) {
 		// increase read count
+		CommentServiceImpl comService = new CommentService();
+		List<CommentDto> commentList = comService.getComments(bbs.getSeq());
+		
 		bbsService.plusReadCount(bbs);
-		new PostDetail(bbs);
+		
+		new PostDetail(bbs, commentList);
 	}
 	public boolean delete(BbsDto bbsDto) {
 		return bbsService.delete(bbsDto);
